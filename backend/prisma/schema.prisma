@@ -1,0 +1,171 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Object {
+  id                   Int                   @id @default(autoincrement())
+  infrastructureTypeId Int
+  regionId             Int
+  latitude             Float?
+  longitude            Float?
+  googleMapsUrl        String?
+  website              String?
+  logoUrl              String?
+  imageUrl             String?
+  geocodingStatus      String?               @default("PENDING") // SUCCESS, FAILED, MANUAL, PENDING
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  
+  infrastructureType   InfrastructureType    @relation(fields: [infrastructureTypeId], references: [id])
+  region               Region                @relation(fields: [regionId], references: [id])
+  translations         ObjectTranslation[]
+  phones               Phone[]
+  organizations        Organization[]
+  priorityDirections   PriorityDirection[]   @relation("ObjectPriorityDirections")
+}
+
+model ObjectTranslation {
+  id           Int      @id @default(autoincrement())
+  objectId     Int
+  languageCode String   // ru, kz, en
+  name         String   @db.VarChar(1000)
+  address      String   @db.VarChar(1000)
+  isPublished  Boolean  @default(false)
+  
+  object       Object   @relation(fields: [objectId], references: [id], onDelete: Cascade)
+  
+  @@unique([objectId, languageCode])
+}
+
+model Phone {
+  id       Int       @id @default(autoincrement())
+  objectId Int
+  number   String
+  type     PhoneType @default(MAIN)
+  order    Int       @default(0)
+  
+  object   Object    @relation(fields: [objectId], references: [id], onDelete: Cascade)
+}
+
+enum PhoneType {
+  MAIN
+  ADDITIONAL
+  FAX
+  MOBILE
+}
+
+model InfrastructureType {
+  id           Int                              @id @default(autoincrement())
+  icon         String
+  color        String
+  order        Int                              @default(0)
+  isActive     Boolean                          @default(true)
+  
+  translations InfrastructureTypeTranslation[]
+  objects      Object[]
+}
+
+model InfrastructureTypeTranslation {
+  id                   Int                @id @default(autoincrement())
+  infrastructureTypeId Int
+  languageCode         String             // ru, kz, en
+  name                 String
+  
+  infrastructureType   InfrastructureType @relation(fields: [infrastructureTypeId], references: [id], onDelete: Cascade)
+  
+  @@unique([infrastructureTypeId, languageCode])
+}
+
+model PriorityDirection {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  order    Int      @default(0)
+  isActive Boolean  @default(true)
+  
+  objects  Object[] @relation("ObjectPriorityDirections")
+}
+
+model Region {
+  id           Int                 @id @default(autoincrement())
+  code         String?
+  parentId     Int?
+  
+  parent       Region?             @relation("RegionHierarchy", fields: [parentId], references: [id])
+  children     Region[]            @relation("RegionHierarchy")
+  translations RegionTranslation[]
+  objects      Object[]
+}
+
+model RegionTranslation {
+  id           Int    @id @default(autoincrement())
+  regionId     Int
+  languageCode String // ru, kz, en
+  name         String
+  
+  region       Region @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  
+  @@unique([regionId, languageCode])
+}
+
+model Organization {
+  id       Int     @id @default(autoincrement())
+  objectId Int
+  name     String
+  website  String?
+  
+  object   Object  @relation(fields: [objectId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                   Int           @id @default(autoincrement())
+  email                String        @unique
+  password             String?       // Nullable для новых пользователей
+  name                 String
+  role                 Role          @default(EDITOR)
+  isActive             Boolean       @default(true)
+  lastLoginAt          DateTime?
+  passwordResetToken   String?       @unique
+  passwordResetExpires DateTime?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  
+  sessions             Session[]
+  importHistory        ImportHistory[]
+}
+
+enum Role {
+  SUPER_ADMIN
+  EDITOR
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    Int
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ImportHistory {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  filename    String
+  status      String    @default("PROCESSING") // PROCESSING, COMPLETED, FAILED
+  totalRows   Int
+  successRows Int
+  errorRows   Int
+  errors      Json?
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+  
+  user        User      @relation(fields: [userId], references: [id])
+}
