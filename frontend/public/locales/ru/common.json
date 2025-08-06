@@ -1,0 +1,83 @@
+{
+  "app_name": "Цифровой атлас инновационной инфраструктуры",
+  "nav": {
+    "home": "Главная",
+    "about": "О проекте",
+    "contacts": "Контакты",
+    "admin": "Админ панель"
+  },
+  "filters": {
+    "search_placeholder": "Поиск по названию или адресу...",
+    "infrastructure_type": "Тип инфраструктуры",
+    "priority_directions": "Приоритетные направления",
+    "region": "Регион",
+    "all_types": "Все типы",
+    "all_directions": "Все направления",
+    "all_regions": "Все регионы",
+    "reset_filters": "Сбросить фильтры",
+    "objects_found": "Найдено объектов",
+    "apply": "Применить",
+    "clear": "Очистить"
+  },
+  "map": {
+    "objects_list": "Список объектов",
+    "show_on_map": "Показать на карте",
+    "loading": "Загрузка карты...",
+    "error": "Ошибка загрузки карты"
+  },
+  "object": {
+    "details": "Подробнее",
+    "build_route": "Построить маршрут",
+    "share": "Поделиться",
+    "phone": "Телефон",
+    "phones": "Телефоны",
+    "website": "Веб-сайт",
+    "address": "Адрес",
+    "organizations": "Организации",
+    "no_data": "Нет данных",
+    "infrastructure_type": "Тип инфраструктуры",
+    "region": "Регион",
+    "priority_directions": "Приоритетные направления",
+    "open_in_maps": "Открыть в картах",
+    "tabs": {
+      "info": "Общая информация",
+      "organizations": "Организации",
+      "contacts": "Контакты"
+    },
+    "phone_main": "Основной",
+    "phone_additional": "Дополнительный",
+    "phone_fax": "Факс",
+    "phone_mobile": "Мобильный"
+  },
+  "auth": {
+    "login_title": "Вход в систему",
+    "login_subtitle": "Войдите для доступа к административной панели",
+    "password": "Пароль",
+    "login_button": "Войти",
+    "forgot_password": "Забыли пароль?",
+    "errors": {
+      "email_required": "Email обязателен",
+      "email_invalid": "Некорректный email",
+      "password_required": "Пароль обязателен",
+      "password_min": "Минимум 6 символов",
+      "invalid_credentials": "Неверный email или пароль"
+    }
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Произошла ошибка",
+    "retry": "Повторить",
+    "close": "Закрыть",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "add": "Добавить",
+    "search": "Поиск",
+    "yes": "Да",
+    "no": "Нет",
+    "back_to_home": "На главную",
+    "logout": "Выйти",
+    "no_results": "Результаты не найдены"
+  }
+}

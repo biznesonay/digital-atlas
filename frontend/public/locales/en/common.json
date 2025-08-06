@@ -1,0 +1,53 @@
+{
+  "app_name": "Digital Atlas of Innovation Infrastructure",
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contacts": "Contacts",
+    "admin": "Admin Panel"
+  },
+  "filters": {
+    "search_placeholder": "Search by name or address...",
+    "infrastructure_type": "Infrastructure Type",
+    "priority_directions": "Priority Directions",
+    "region": "Region",
+    "all_types": "All types",
+    "all_directions": "All directions",
+    "all_regions": "All regions",
+    "reset_filters": "Reset filters",
+    "objects_found": "Objects found",
+    "apply": "Apply",
+    "clear": "Clear"
+  },
+  "map": {
+    "objects_list": "Objects List",
+    "show_on_map": "Show on map",
+    "loading": "Loading map...",
+    "error": "Map loading error"
+  },
+  "object": {
+    "details": "Details",
+    "build_route": "Get directions",
+    "share": "Share",
+    "phone": "Phone",
+    "phones": "Phones",
+    "website": "Website",
+    "address": "Address",
+    "organizations": "Organizations",
+    "no_data": "No data"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "yes": "Yes",
+    "no": "No"
+  }
+}

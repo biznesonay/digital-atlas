@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Map container */
+.map-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+/* Floating panels */
+.floating-panel {
+  @apply absolute bg-white rounded-lg shadow-lg p-4;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Utilities */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Material-UI overrides */
+.MuiPaper-root {
+  transition: all 0.3s ease;
+}
+
+/* Map controls */
+.map-controls {
+  @apply absolute top-4 right-4 flex flex-col gap-2;
+}
+
+/* Filter panel */
+.filter-panel {
+  @apply absolute top-20 left-4 right-4 md:left-4 md:right-auto md:w-96 bg-white rounded-lg shadow-lg p-4;
+}
+
+/* Objects list modal */
+.objects-list-modal {
+  @apply fixed right-0 top-0 bottom-0 w-full md:w-[480px] bg-white shadow-2xl;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.objects-list-modal.open {
+  transform: translateX(0);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .dark-mode {
+    @apply bg-gray-900 text-white;
+  }
+  
+  .dark-mode .floating-panel,
+  .dark-mode .filter-panel,
+  .dark-mode .objects-list-modal {
+    @apply bg-gray-800 text-white;
+  }
+}
