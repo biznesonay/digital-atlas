@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  password      String?
+  role          String   @default("EDITOR") // SUPER_ADMIN, EDITOR
+  refreshToken  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Object {
+  id                    Int                    @id @default(autoincrement())
+  infrastructureTypeId  Int
+  regionId             Int
+  latitude             Float?
+  longitude            Float?
+  googleMapsUrl        String?
+  website              String?
+  logoUrl              String?
+  imageUrl             String?
+  contactPhones        String?
+  geocodingStatus      String?                @default("pending")
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  
+  infrastructureType   InfrastructureType     @relation(fields: [infrastructureTypeId], references: [id])
+  region              Region                 @relation(fields: [regionId], references: [id])
+  translations        ObjectTranslation[]
+  priorityDirections  ObjectPriorityDirection[]
+}
+
+model ObjectTranslation {
+  id           Int     @id @default(autoincrement())
+  objectId     Int
+  languageCode String  // ru, kz, en
+  name         String
+  address      String
+  isPublished  Boolean @default(false)
+  
+  object       Object  @relation(fields: [objectId], references: [id], onDelete: Cascade)
+  
+  @@unique([objectId, languageCode])
+}
+
+model InfrastructureType {
+  id           Int                            @id @default(autoincrement())
+  icon         String
+  color        String
+  createdAt    DateTime                       @default(now())
+  
+  objects      Object[]
+  translations InfrastructureTypeTranslation[]
+}
+
+model InfrastructureTypeTranslation {
+  id                   Int                @id @default(autoincrement())
+  infrastructureTypeId Int
+  languageCode         String
+  name                 String
+  
+  infrastructureType   InfrastructureType @relation(fields: [infrastructureTypeId], references: [id], onDelete: Cascade)
+  
+  @@unique([infrastructureTypeId, languageCode])
+}
+
+model Region {
+  id           Int                @id @default(autoincrement())
+  createdAt    DateTime           @default(now())
+  
+  objects      Object[]
+  translations RegionTranslation[]
+}
+
+model RegionTranslation {
+  id           Int    @id @default(autoincrement())
+  regionId     Int
+  languageCode String
+  name         String
+  
+  region       Region @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  
+  @@unique([regionId, languageCode])
+}
+
+model PriorityDirection {
+  id        Int                       @id @default(autoincrement())
+  name      String                    @unique
+  createdAt DateTime                  @default(now())
+  
+  objects   ObjectPriorityDirection[]
+}
+
+model ObjectPriorityDirection {
+  objectId            Int
+  priorityDirectionId Int
+  
+  object              Object            @relation(fields: [objectId], references: [id], onDelete: Cascade)
+  priorityDirection   PriorityDirection @relation(fields: [priorityDirectionId], references: [id], onDelete: Cascade)
+  
+  @@id([objectId, priorityDirectionId])
+}
